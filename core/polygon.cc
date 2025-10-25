@@ -3,6 +3,9 @@
 #include "core/geometry.h"
 #include "core/numeric.h"
 
+#define _USE_MATH_DEFINES
+#include <cmath>
+
 #include <algorithm>
 #include <fstream>
 #include <iostream>

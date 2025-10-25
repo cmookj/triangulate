@@ -1,6 +1,7 @@
 #include "core/geometry.h"
 #include "core/numeric.h"
 
+#define _USER_MATH_DEFINES
 #include <cmath>
 
 //// NAMESPACE: geometry
