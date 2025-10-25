@@ -26,6 +26,11 @@ Area = 0.65
 Area = 1269.84
 ```
 
+**Note**: This code was tested under the following environments
+
+* macOS 15.7.1 with Apple clang compiler 17.0.0
+* Ubuntu 22.04 (running as a container image) with gcc 11.4.0
+
 ## Output Files
 
 The program read the csv files in `data` directory.
@@ -34,7 +39,7 @@ It generates two output files in plain TeX (NOT a LaTeX) source with brief print
 * `simple_concave_poly.csv.tex`
 * `concave_poly.csv.tex`
 
-Note: if `__DEBUG_TIKZ__` is defined (currently it is defined in `core/polygon.cc`) the program
+**Note**: if `__DEBUG_TIKZ__` is defined (currently it is defined in `core/polygon.cc`) the program
 also generates another TeX file named as `debug.tex` which shows the progress of triangulation
 at every step.  The file `progress_concave_poly.pdf` shows the triangulation progress for
 the input file `concave_poly.csv`.
