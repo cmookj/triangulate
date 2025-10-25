@@ -17,7 +17,7 @@ struct Polar {
 };
 
 //// Type Aliases
-using TriangleSpec = std::array<size_t, 3>;
+using TriangleSpec = std::array<std::size_t, 3>;
 using Triangles    = std::vector<TriangleSpec>;
 using Points       = std::vector<Point>;
 

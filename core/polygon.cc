@@ -147,12 +147,12 @@ Polygon::InteriorDirection
 Polygon::determine_interior_direction (const Points& points) const {
     std::vector<double> angles (points.size() - 1, 0.0);
 
-    for (size_t i = 0; i < points.size() - 1; ++i) {
+    for (std::size_t i = 0; i < points.size() - 1; ++i) {
         angles[i] = geometry::angle (points[i], points[i + 1]);
     }
 
     double sum_rotational_angles = 0.0;
-    for (size_t i = 0; i < angles.size() - 1; ++i) {
+    for (std::size_t i = 0; i < angles.size() - 1; ++i) {
         sum_rotational_angles += geometry::constrain_rotational_angle (angles[i + 1] - angles[i]);
     }
     sum_rotational_angles += geometry::constrain_rotational_angle (angles.front() - angles.back());
