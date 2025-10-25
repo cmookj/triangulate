@@ -47,3 +47,6 @@ For your convenience, the pdf files generated from the TeX sources are included;
 
 The program draws the perimeter polygon and triangles in thick (0.8pt) and very thin (0.1pt)
 lines, respectively.
+
+The figure below show the progress of triangulation:
+![Progress](progress.gif)
