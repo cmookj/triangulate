@@ -272,7 +272,8 @@ Polygon::open_debug_tikz (const std::string& filename) const {
     _debug_tex_tikz_file << "\\input tikz.tex\n"
                          << "\\baselineskip=12pt\n"
                          << "\\hsize=6.3truein\n"
-                         << "\\vsize=8.7truein\n";
+                         << "\\vsize=8.7truein\n"
+                         << "\\nopagenumbers\n";
 }
 
 void
