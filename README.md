@@ -23,7 +23,7 @@ bazel-bin/main/triangulate
 Result:
 ```shell
 Area = 0.65
-Area = 1269.84
+Area = 1269.19
 ```
 
 **Note**: This code was tested under the following environments
