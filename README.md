@@ -40,6 +40,12 @@ This program includes basic unit tests using google test.
 bazel test //test:basic_test
 ```
 
+In Windows, use the following command:
+
+```shell
+bazel test --cxxopt=/std:c++20 --host_cxxopt=/std:c++20 //test:basic_test
+```
+
 ## Output Files
 
 The program read the csv files in `data` directory.
