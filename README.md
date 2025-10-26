@@ -3,7 +3,8 @@
 * This project is built using [Bazel](https://bazel.build/) but can be easily built using other
 terminal based tools, e.g., CMake or IDE.
 * This program is written in C++20 with only using standard library.
-    - No external dependency is required.
+    - No external dependency is required for the program itself.
+* For unit test, this project requires Google Test.
 
 ## Build and Run
 
@@ -30,6 +31,15 @@ Area = 1269.19
 * macOS 15.7.1 with Apple clang compiler 17.0.0
 * Ubuntu 22.04 (running as a container image) with gcc 11.4.0
 * Windows 11 with Visual Studio 2022
+
+## Unit Tests
+
+This program includes basic unit tests using google test.
+
+```shell
+bazel build //test:basic_test
+bazel test //test:basic_test
+```
 
 ## Output Files
 
