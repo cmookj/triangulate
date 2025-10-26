@@ -268,6 +268,15 @@ Polygon::has_intersection (
     return false;
 }
 
+std::string
+Polygon::interior_direction () const {
+    switch (_interior_dir) {
+    case InteriorDirection::left: return "left"; break;
+    case InteriorDirection::right: return "right"; break;
+    default: return "unknown"; break;
+    }
+}
+
 void
 Polygon::open_debug_tikz (const std::string& filename) const {
     _debug_tex_tikz_file = std::ofstream{filename};

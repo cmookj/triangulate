@@ -36,6 +36,9 @@ class Polygon {
     double
     area () const;
 
+    std::string
+    interior_direction () const;
+
   private:
     void
     increase_idx (std::size_t& idx) const;
