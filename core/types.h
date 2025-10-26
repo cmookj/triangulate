@@ -6,19 +6,19 @@
 
 //// Point struct and related functions
 struct Point {
-    double x = 0.;
-    double y = 0.;
+  double x = 0.;
+  double y = 0.;
 };
 
 //// Struct: Polar (coordinates)
 struct Polar {
-    double length;
-    double angle;  // In radians
+  double length;
+  double angle;  // In radians
 };
 
 //// Type Aliases
 using TriangleSpec = std::array<std::size_t, 3>;
-using Triangles    = std::vector<TriangleSpec>;
-using Points       = std::vector<Point>;
+using Triangles = std::vector<TriangleSpec>;
+using Points = std::vector<Point>;
 
 #endif
