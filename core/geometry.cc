@@ -1,8 +1,8 @@
 #include "core/geometry.h"
 #include "core/numeric.h"
 
-#define _USE_MATH_DEFINES
 #include <cmath>
+#include <numbers>
 
 //// NAMESPACE: geometry
 namespace geometry {
@@ -29,8 +29,8 @@ polar_coordinate (const Point& p, const Point& q) {
 // Constrain the angle of rotation between -180 andd 180
 double
 constrain_rotational_angle (const double q) {
-    if (q > M_PI) return q - 2 * M_PI;
-    if (q < -M_PI) return q + 2 * M_PI;
+    if (q > std::numbers::pi) return q - 2 * std::numbers::pi;
+    if (q < -std::numbers::pi) return q + 2 * std::numbers::pi;
     return q;
 }
 

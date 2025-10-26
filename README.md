@@ -2,17 +2,16 @@
 
 * This project is built using [Bazel](https://bazel.build/) but can be easily built using other
 terminal based tools, e.g., CMake or IDE.
-* It is built and tested on macOS in terminal environment, and it will be built on Ubuntu Linux
-if only Bazel is setup.
-* This program is written in C++17 with only using standard library.
+* It is built and tested on macOS in terminal environment, as well as Ubuntu Linux 22.04 running in a container on macOS.
+* This program is written in C++20 with only using standard library.
     - No external dependency is required.
 
 ## Build and Run
 
 To build:
 ```shell
-bazel build --cxxopt=-std=c++17 //core:core
-bazel build --cxxopt=-std=c++17 //main:triangulate
+bazel build --cxxopt=-std=c++20 //core:core
+bazel build --cxxopt=-std=c++20 //main:triangulate
 ```
 
 To run:
