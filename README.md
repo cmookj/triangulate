@@ -29,7 +29,7 @@ Area = 1269.19
 
 * macOS 15.7.1 with Apple clang compiler 17.0.0
 * Ubuntu 22.04 (running as a container image) with gcc 11.4.0
-* Windows 10 with Visual Studio 2022
+* Windows 11 with Visual Studio 2022
 
 ## Output Files
 
