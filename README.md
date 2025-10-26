@@ -14,6 +14,12 @@ bazel build --cxxopt=-std=c++20 //core:core
 bazel build --cxxopt=-std=c++20 //main:triangulate
 ```
 
+(In Windows)
+```
+bazel build --cxxopt=/std:c++20 //core:core
+bazel build --cxxopt=/std:c++20 //main:triangulate
+```
+
 To run:
 ```shell
 bazel-bin/main/triangulate
