@@ -37,7 +37,6 @@ Area = 1269.19
 This program includes basic unit tests using google test.
 
 ```shell
-bazel build //test:basic_test
 bazel test //test:basic_test
 ```
 
