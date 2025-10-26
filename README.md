@@ -2,7 +2,6 @@
 
 * This project is built using [Bazel](https://bazel.build/) but can be easily built using other
 terminal based tools, e.g., CMake or IDE.
-* It is built and tested on macOS in terminal environment, as well as Ubuntu Linux 22.04 running in a container on macOS.
 * This program is written in C++20 with only using standard library.
     - No external dependency is required.
 
@@ -10,14 +9,7 @@ terminal based tools, e.g., CMake or IDE.
 
 To build:
 ```shell
-bazel build --cxxopt=-std=c++20 //core:core
-bazel build --cxxopt=-std=c++20 //main:triangulate
-```
-
-(In Windows)
-```shell
-bazel build --cxxopt=/std:c++20 //core:core
-bazel build --cxxopt=/std:c++20 //main:triangulate
+bazel build //main:triangulate
 ```
 
 To run:
@@ -25,10 +17,7 @@ To run:
 bazel-bin/main/triangulate
 ```
 
-(In Windows)
-```shell
-bazel-bin\main\triangulate
-```
+In Windows, use `\` instead of `/`.
 
 Result:
 ```shell
@@ -40,6 +29,7 @@ Area = 1269.19
 
 * macOS 15.7.1 with Apple clang compiler 17.0.0
 * Ubuntu 22.04 (running as a container image) with gcc 11.4.0
+* Windows 10 with Visual Studio 2022
 
 ## Output Files
 
