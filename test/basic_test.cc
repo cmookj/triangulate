@@ -11,7 +11,7 @@
 #include "core/types.h"
 
 //// For a limited form of QuickCheck
-constexpr std::size_t max_test_count = 4;  // 65536;
+constexpr std::size_t max_test_count = 65536;
 
 //// Test Numeric
 TEST (NumericTest, CloseEnough) {
@@ -39,6 +39,50 @@ TEST (GeometryTest, CartesianPolarConversion) {
         auto polar = geometry::polar_coordinate (Point{0., 0.}, Point{x, y});
         EXPECT_NEAR (polar.length, 1.0, 1e-12);
         EXPECT_NEAR (polar.angle, q, 1e-12);
+    }
+}
+
+TEST (GeometryTest, Area) {
+    // Area of a random triangle whose two vertices are fixed at (0, 0) and (1, 0).
+    // The other vertex is randomly picked on the line y = 2.
+    random_float_gen<double> gen;
+
+    Point a{0., 0.};
+    Point b{1., 0.};
+
+    for (std::size_t i = 0; i < max_test_count; ++i) {
+        Point        c{gen(), 2.};
+        const double area = geometry::area (a, b, c);
+        EXPECT_NEAR (area, 1.0, 1e-12);
+    }
+}
+
+TEST (GeometryTest, Intersection) {
+    // Four points are picked randomly such that
+    // each of them lie on each edge of a unit square.
+    //
+    // For example,
+    //
+    //     ^
+    //     |        c
+    //     +--------.---+
+    //     |            |
+    //     |            .b
+    //     |            |
+    //    a.            |
+    //     |            |
+    //     +-----.------+---->
+    //           d
+    // Then two line segments (a, d) and (b, c) should always have an intersection.
+    random_float_gen<double> gen;
+
+    Point a{0., gen()};
+    Point b{1., gen()};
+    Point c{gen(), 1.};
+    Point d{gen(), 0.};
+
+    for (std::size_t i = 0; i < max_test_count; ++i) {
+        ASSERT_TRUE (geometry::does_intersect (a, b, c, d));
     }
 }
 
