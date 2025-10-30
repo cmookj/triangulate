@@ -5,21 +5,24 @@
 #include "core/polygon.h"
 
 // Triangulate
-void triangulate(const std::string& dir, const std::string& filename,
-                 const double scale) {
-  auto points = fileio::read_csv_points(dir + "/" + filename);
-  Polygon poly{std::move(points)};
+void
+triangulate (const std::string& dir, std::string filename_ext, const double scale) {
+    auto    points = fileio::read_csv_points (dir + "/" + filename_ext);
+    Polygon poly{std::move (points)};
 
-  Triangles triangles = poly.triangulate();
-  const double area = poly.area();
+    Triangles    triangles = poly.triangulate();
+    const double area      = poly.area();
 
-  std::cout << "Area = " << area << '\n';
+    std::cout << "Area = " << area << '\n';
 
-  fileio::write_tex_tikz(filename + ".tex", points, triangles, area, scale);
+    const std::string ext{".csv"};
+    std::string       filename = filename_ext.erase (filename_ext.size() - ext.size());
+    fileio::write_tex_tikz (filename + ".tex", points, triangles, area, scale);
 }
 
 //// main
-int main(int argc, char* argv[]) {
-  triangulate("data", "simple_concave_poly.csv", 10);
-  triangulate("data", "concave_poly.csv", 0.25);
+int
+main (int argc, char* argv[]) {
+    triangulate ("examples", "example_1.csv", 10);
+    triangulate ("examples", "example_2.csv", 0.25);
 }

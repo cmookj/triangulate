@@ -11,7 +11,8 @@
 namespace numeric {
 
 // Determine whether two scalars are within the error tolerance (eps)
-bool close_enough(const double a, const double b, const double eps = 1e-12);
+bool
+close_enough (const double a, const double b, const double eps = 1e-12);
 
 }  // namespace numeric
 
