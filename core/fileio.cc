@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
-#include <iterator>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -55,9 +54,10 @@ string_tikz_polygon (
     Points points_enabled;
     points_enabled.reserve (std::count (clipped.cbegin(), clipped.cend(), true));
 
-    for (std::size_t i = 0; i < points.size(); ++i) {
+    for (std::size_t i = 0; i < clipped.size(); ++i) {
         if (clipped[i] == false) points_enabled.push_back (points[i]);
     }
+    points_enabled.push_back (points_enabled.front());
 
     strm << "\\tikzpicture[scale=" << scale << "]\n";
     strm << "\\draw[thick]\n";

@@ -27,7 +27,7 @@ polar_coordinate (const Point& p, const Point& q) {
     return Polar{.length = distance (p, q), .angle = angle (p, q)};
 }
 
-// Constrain the angle of rotation between -180 andd 180
+// Constrain the angle of rotation between -180 and 180
 double
 constrain_rotational_angle (const double q) {
     if (q > std::numbers::pi) return q - 2 * std::numbers::pi;
@@ -67,7 +67,8 @@ does_intersect (const Point& p, const Point& q, const Point& r, const Point& s) 
     const double a = (A_22 * b_1 - A_12 * b_2) / det;
     const double b = (-A_21 * b_1 + A_11 * b_2) / det;
 
-    if (0. < a && a < 1. && 0. < b && b < 1.) return true;
+    // if (0. < a && a < 1. && 0. < b && b < 1.) return true;
+    if (0. <= a && a <= 1. && 0. <= b && b <= 1.) return true;
 
     return false;
 }

@@ -68,17 +68,11 @@ Polygon::triangulate () const {
         const double q_1    = geometry::angle (vp, v);
         const double q_2    = geometry::angle (v, vn);
         double       q_diff = q_2 - q_1;
-        if (q_diff > std::numbers::pi) q_diff -= -2 * std::numbers::pi;
-        if (q_diff < -std::numbers::pi) q_diff += 2 * std::numbers::pi;
 
-        if ((q_diff > 0. && _interior_dir != InteriorDirection::left) ||
-            (q_diff < 0. && _interior_dir != InteriorDirection::right) ||
-            numeric::close_enough (q_diff, 0.)) {
-            // The line segment connecting vp to vn is OUTSIDE of the polygon.
-            std::cout << "o" << std::endl;
-            increase_idx (current_idx);
-            continue;
-        }
+        if (numeric::close_enough (q_diff, std::numbers::pi)) q_diff = -std::numbers::pi;
+
+        if (q_diff > std::numbers::pi) q_diff += -2 * std::numbers::pi;
+        if (q_diff < -std::numbers::pi) q_diff += 2 * std::numbers::pi;
 
         if (numeric::close_enough (q_diff, std::numbers::pi) ||
             numeric::close_enough (q_diff, -std::numbers::pi)) {
@@ -86,6 +80,15 @@ Polygon::triangulate () const {
             // which means the line segments (vp, v) and (v, vn) overlap.
             std::cout << "x" << std::endl;
             clipped[idx_v] = true;
+            increase_idx (current_idx);
+            continue;
+        }
+
+        if ((q_diff > 0. && _interior_dir != InteriorDirection::left) ||
+            (q_diff < 0. && _interior_dir != InteriorDirection::right) ||
+            numeric::close_enough (q_diff, 0.)) {
+            // The line segment connecting vp to vn is OUTSIDE of the polygon.
+            std::cout << "o" << std::endl;
             increase_idx (current_idx);
             continue;
         }
@@ -155,7 +158,11 @@ Polygon::determine_interior_direction (const Points& points) const {
 
     double sum_rotational_angles = 0.0;
     for (std::size_t i = 0; i < angles.size() - 1; ++i) {
-        sum_rotational_angles += geometry::constrain_rotational_angle (angles[i + 1] - angles[i]);
+        double step_rotation = angles[i + 1] - angles[i];
+        if (numeric::close_enough (step_rotation, std::numbers::pi))
+            step_rotation = -std::numbers::pi;
+
+        sum_rotational_angles += geometry::constrain_rotational_angle (step_rotation);
     }
     sum_rotational_angles += geometry::constrain_rotational_angle (angles.front() - angles.back());
 
