@@ -1,4 +1,4 @@
-# Triangulation: C++ Geometry
+# Planar Geometry
 
 * This project is built using [Bazel](https://bazel.build/) but can be easily built using other
 terminal based tools, e.g., CMake or IDE.
