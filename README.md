@@ -1,26 +1,25 @@
 # Planar Geometry
 
-* This project is built using [Bazel](https://bazel.build/) but can be easily built using other
-terminal based tools, e.g., CMake or IDE.
-* This program is written in C++20 with only using standard library.
-    - No external dependency is required for the program itself.
-* For unit test, this project requires Google Test.
+* This library and example programs are built using [Bazel](https://bazel.build/).
+* Written in C++20 with only using standard library.
+    - No external dependency.
+* For unit test, the library requires Google Test.
 
 ## Build and Run
 
 To build:
 ```shell
-bazel build //main:triangulate
+bazel build //examples:triangulate
 ```
 
 To run:
 ```shell
-bazel-bin/main/triangulate
+bazel-bin/examples/triangulate
 ```
 
-In Windows, use `\` instead of `/`.
+In Windows, use `\` instead of `/`, obviously.
 
-**Note**: This code was tested under the following environments
+**Note**: This library was tested under the following environments
 
 * macOS 15.7.1 with Apple clang compiler 17.0.0
 * Ubuntu 22.04 (running as a container image) with gcc 11.4.0
@@ -49,7 +48,8 @@ plain TeX (NOT a LaTeX) source with brief print out in the terminal.
 also generates another TeX file named as `debug.tex` which shows the progress of triangulation
 at every step.
 
-The output files contain primitive plain TeX commands with [TikZ](https://github.com/pgf-tikz/pgf) macros.
+The output files contain primitive plain TeX commands with
+[TikZ](https://github.com/pgf-tikz/pgf) macros.
 (TikZ is a set of commands to draw graphics with PGF as the backend of the drawing system.)
 
 The program draws the perimeter polygon and triangles in thick (0.8pt) and very thin (0.1pt)
