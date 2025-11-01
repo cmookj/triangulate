@@ -20,12 +20,6 @@ bazel-bin/main/triangulate
 
 In Windows, use `\` instead of `/`.
 
-Result:
-```shell
-Area = 0.65
-Area = 1269.19
-```
-
 **Note**: This code was tested under the following environments
 
 * macOS 15.7.1 with Apple clang compiler 17.0.0
@@ -48,22 +42,18 @@ bazel test --cxxopt=/std:c++20 --host_cxxopt=/std:c++20 //test:basic_test
 
 ## Output Files
 
-The program read the csv files in `examples` directory.
-It generates two output files in plain TeX (NOT a LaTeX) source with brief print out in the terminal.
-
-* `example_1.tex`
-* `example_2.tex`
+The program read the csv files in `examples` directory and generates corresponding output files in
+plain TeX (NOT a LaTeX) source with brief print out in the terminal.
 
 **Note**: if `__DEBUG_TIKZ__` is defined (currently it is defined in `core/polygon.cc`) the program
 also generates another TeX file named as `debug.tex` which shows the progress of triangulation
-at every step.  The file `progress.gif` shows the triangulation progress for
-the input file `example_2.csv`.
+at every step.
 
-The two files contains primitive plain TeX commands with [TikZ](https://github.com/pgf-tikz/pgf) macros.
-(The TikZ is a set of commands to draw graphics with PGF as the backend of the drawing system.)
+The output files contain primitive plain TeX commands with [TikZ](https://github.com/pgf-tikz/pgf) macros.
+(TikZ is a set of commands to draw graphics with PGF as the backend of the drawing system.)
 
 The program draws the perimeter polygon and triangles in thick (0.8pt) and very thin (0.1pt)
 lines, respectively.
 
-The figure below show the progress of triangulation of the concave polygon defined in `example_2.csv`:
+The figure below show the progress of triangulation of the concave polygon defined in `example_3.csv`:
 ![Progress](progress.gif)
