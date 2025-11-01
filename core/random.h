@@ -1,5 +1,9 @@
+#include <cmath>
 #include <limits>
+#include <numbers>
 #include <random>
+
+#include "core/types.h"
 
 template <typename T> struct random_int_gen {
     // By default, random integral numbers are generated between the minimum
@@ -50,4 +54,18 @@ template <typename T> struct random_float_gen {
 
     std::mt19937                      gen;
     std::uniform_real_distribution<T> dist;
+};
+
+struct random_point_around_semicircle {
+    random_point_around_semicircle (const double angle = 0.0)
+        : base_angle{angle} {}
+
+    Point
+    operator() () {
+        const double angle = gen() * std::numbers::pi + base_angle;
+        return Point{.x = std::cos (angle), .y = std::sin (angle)};
+    }
+
+    random_float_gen<double> gen;
+    const double             base_angle;
 };

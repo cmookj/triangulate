@@ -34,5 +34,6 @@ main (int argc, char* argv[]) {
 
     triangulate ("examples", "example_0.csv", 10);
     triangulate ("examples", "example_1.csv", 5);
-    triangulate ("examples", "example_2.csv", 0.25);
+    triangulate ("examples", "example_2.csv", 5);
+    triangulate ("examples", "example_3.csv", 0.25);
 }

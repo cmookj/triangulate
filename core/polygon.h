@@ -46,7 +46,7 @@ class Polygon {
     // Distinguish interior and outside of polygon
     // Assume that the points form a closed polygon, i.e., the first and last
     // elements coincide.
-    InteriorDirection
+    void
     determine_interior_direction (const Points& points) const;
 
     void

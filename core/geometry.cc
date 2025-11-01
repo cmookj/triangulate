@@ -52,7 +52,14 @@ constrain_rotational_angle (const double q) {
 // The line segments have intersection iif 0 < a < 1 and 0 < b < 1, excluding
 // the intersection at the ends.
 bool
-does_intersect (const Point& p, const Point& q, const Point& r, const Point& s) {
+does_intersect (
+    const Point&   p,
+    const Point&   q,
+    const Point&   r,
+    const Point&   s,
+    const LineType line_type,
+    const bool     ignore_endpoints
+) {
     const double A_11 = q.x - p.x;
     const double A_12 = r.x - s.x;
     const double A_21 = q.y - p.y;
@@ -67,8 +74,19 @@ does_intersect (const Point& p, const Point& q, const Point& r, const Point& s) 
     const double a = (A_22 * b_1 - A_12 * b_2) / det;
     const double b = (-A_21 * b_1 + A_11 * b_2) / det;
 
-    // if (0. < a && a < 1. && 0. < b && b < 1.) return true;
-    if (0. <= a && a <= 1. && 0. <= b && b <= 1.) return true;
+    if (ignore_endpoints) {
+        switch (line_type) {
+        case LineType::segment: return (0. < a && a < 1. && 0. < b && b < 1.); break;
+        case LineType::ray: return (0. < a && 0. < b && b < 1.); break;
+        case LineType::infinite_line: return (0. < b && b < 1.); break;
+        }
+    } else {
+        switch (line_type) {
+        case LineType::segment: return (0. <= a && a <= 1. && 0. <= b && b <= 1.); break;
+        case LineType::ray: return (0. <= a && 0. <= b && b <= 1.); break;
+        case LineType::infinite_line: return (0. <= b && b <= 1.); break;
+        }
+    }
 
     return false;
 }
@@ -83,6 +101,12 @@ area (const Point& a, const Point& b, const Point& c) {
     const double qy = c.y - a.y;
 
     return .5 * std::abs (px * qy - py * qx);
+}
+
+// Mid-point between two points
+Point
+midpoint (const Point& a, const Point& b) {
+    return Point{(a.x + b.x) / 2., (a.y + b.y) / 2.};
 }
 
 }  // namespace geometry

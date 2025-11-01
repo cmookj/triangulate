@@ -1,12 +1,12 @@
 #include "core/polygon.h"
 
 #include <algorithm>
-#include <cmath>
 #include <fstream>
 #include <iostream>
 #include <iterator>
 #include <numbers>
 #include <optional>
+#include <ranges>
 #include <string>
 #include <tuple>
 #include <vector>
@@ -14,10 +14,11 @@
 #include "core/fileio.h"
 #include "core/geometry.h"
 #include "core/numeric.h"
+#include "core/random.h"
 
 Polygon::Polygon (Points&& pts)
     : _points{pts} {
-    _interior_dir = determine_interior_direction (_points);
+    determine_interior_direction (_points);
 }
 
 Polygon::~Polygon () {
@@ -148,30 +149,42 @@ Polygon::increase_idx (std::size_t& idx) const {
 // Distinguish interior and outside of polygon
 // Assume that the points form a closed polygon, i.e., the first and last
 // elements coincide.
-Polygon::InteriorDirection
+void
 Polygon::determine_interior_direction (const Points& points) const {
-    std::vector<double> angles (points.size() - 1, 0.0);
+    // determine_interior_dir_angular_displacement (points);
+    constexpr int count_random_rays = 32;
+    for (std::size_t i : std::views::iota (0, static_cast<int> (points.size() - 1))) {
+        const Point  p     = geometry::midpoint (points[i], points[i + 1]);
+        const double angle = geometry::angle (points[i], points[i + 1]);
 
-    for (std::size_t i = 0; i < points.size() - 1; ++i) {
-        angles[i] = geometry::angle (points[i], points[i + 1]);
+        random_point_around_semicircle random_point{angle};
+        int                            count_interior_ray = 0;
+
+        for ([[maybe_unused]] auto _ : std::views::iota (0, count_random_rays)) {
+            const Point q           = random_point() + p;
+            int count_intersections = 1;  // Includes point p which intersects current segment
+            for (std::size_t j = 0; j < points.size() - 1; ++j) {
+                if (j == i) continue;
+                if (geometry::does_intersect (
+                        p, q, points[j], points[j + 1], geometry::LineType::ray, false
+                    ))
+                    count_intersections++;
+            }
+            if (count_intersections % 2 == 0) count_interior_ray++;
+        }
+        if (0.2 * count_random_rays < count_interior_ray &&
+            count_interior_ray < 0.8 * count_random_rays)
+            continue;
+
+        if (count_interior_ray > 0.8 * count_random_rays) {
+            _interior_dir = InteriorDirection::left;
+        } else if (count_interior_ray < 0.2 * count_random_rays) {
+            _interior_dir = InteriorDirection::right;
+        }
+        return;
     }
 
-    double sum_rotational_angles = 0.0;
-    for (std::size_t i = 0; i < angles.size() - 1; ++i) {
-        double step_rotation = angles[i + 1] - angles[i];
-        if (numeric::close_enough (step_rotation, std::numbers::pi))
-            step_rotation = -std::numbers::pi;
-
-        sum_rotational_angles += geometry::constrain_rotational_angle (step_rotation);
-    }
-    sum_rotational_angles += geometry::constrain_rotational_angle (angles.front() - angles.back());
-
-    if (numeric::close_enough (sum_rotational_angles, 2 * std::numbers::pi))
-        return InteriorDirection::left;
-    if (numeric::close_enough (sum_rotational_angles, -2 * std::numbers::pi))
-        return InteriorDirection::right;
-
-    return InteriorDirection::unknown;
+    _interior_dir = InteriorDirection::unknown;
 }
 
 void

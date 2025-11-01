@@ -2,12 +2,13 @@
 
 #include <cmath>
 #include <numbers>
+#include <ranges>
 
 #include "core/geometry.h"
 #include "core/numeric.h"
 #include "core/polygon.h"
+#include "core/random.h"
 #include "core/types.h"
-#include "test/random_gen.h"
 
 //// For a limited form of QuickCheck
 constexpr std::size_t max_test_count = 65536;
@@ -88,28 +89,56 @@ TEST (GeometryTest, Intersection) {
 
 //// Polygon
 TEST (PolygonTest, InteriorDirection) {
-    // Create a perimeter of a circle in CCW direction
-    constexpr std::size_t count_vertices = 12;
-    const double          inc = 2. * std::numbers::pi / static_cast<double> (count_vertices);
-
-    std::vector<Point> points_ccw;
-    for (std::size_t i = 0; i < count_vertices; ++i) {
-        const double q = static_cast<double> (i) * inc;
-        const double x = std::cos (q);
-        const double y = std::sin (q);
-        points_ccw.push_back (Point{x, y});
+    {
+        std::vector<Point> points{
+            Point{0.0, 0.0},
+            Point{1.0, 0.0},
+            Point{1.0, 1.0},
+            Point{0.0, 1.0},
+            Point{0.0, 0.0}
+        };
+        Polygon square_ccw{std::move (points)};
+        EXPECT_EQ (square_ccw.interior_direction(), "left");
     }
-    Polygon poly_ccw{std::move (points_ccw)};
-    EXPECT_EQ (poly_ccw.interior_direction(), "left");
 
-    // Create a perimeter of a circle in CW direction
-    std::vector<Point> points_cw;
-    for (std::size_t i = 0; i < count_vertices; ++i) {
-        const double q = -static_cast<double> (i) * inc;
-        const double x = std::cos (q);
-        const double y = std::sin (q);
-        points_cw.push_back (Point{x, y});
+    {
+        std::vector<Point> points{
+            Point{0.0, 0.0},
+            Point{0.0, 1.0},
+            Point{1.0, 1.0},
+            Point{1.0, 0.0},
+            Point{0.0, 0.0}
+        };
+        Polygon square_cw{std::move (points)};
+        EXPECT_EQ (square_cw.interior_direction(), "right");
     }
-    Polygon poly_cw{std::move (points_cw)};
-    EXPECT_EQ (poly_cw.interior_direction(), "right");
+
+    constexpr int count_vertices = 12;
+    const double  inc            = 2. * std::numbers::pi / static_cast<double> (count_vertices);
+
+    {
+        // Create a perimeter of a circle in CCW direction
+        std::vector<Point> points;
+        for (std::size_t i : std::views::iota (0, count_vertices + 1)) {
+            const double q = static_cast<double> (i) * inc;
+            const double x = std::cos (q);
+            const double y = std::sin (q);
+            points.push_back (Point{x, y});
+        }
+        Polygon poly_ccw{std::move (points)};
+        EXPECT_EQ (poly_ccw.interior_direction(), "left");
+    }
+
+    {
+        // Create a perimeter of a circle in CW direction
+        std::vector<Point> points;
+        for (std::size_t i : std::views::iota (0, count_vertices + 1)) {
+            const double q = -static_cast<double> (i) * inc;
+            const double x = std::cos (q);
+            const double y = std::sin (q);
+            points.push_back (Point{x, y});
+        }
+        Polygon poly_cw{std::move (points)};
+        EXPECT_EQ (poly_cw.interior_direction(), "right");
+    }
 }

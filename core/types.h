@@ -8,7 +8,16 @@
 struct Point {
     double x = 0.;
     double y = 0.;
+
+    void
+    operator+= (const Point& p) {
+        this->x += p.x;
+        this->y += p.y;
+    }
 };
+
+Point
+operator+ (const Point& a, const Point& b);
 
 //// Struct: Polar (coordinates)
 struct Polar {

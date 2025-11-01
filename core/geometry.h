@@ -44,12 +44,25 @@ constrain_rotational_angle (const double q);
 //
 // The line segments have intersection iif 0 < a < 1 and 0 < b < 1, excluding
 // the intersection at the ends.
+enum class LineType { segment, ray, infinite_line };
+
 bool
-does_intersect (const Point& p, const Point& q, const Point& r, const Point& s);
+does_intersect (
+    const Point&   p,
+    const Point&   q,
+    const Point&   r,
+    const Point&   s,
+    const LineType line_type        = LineType::segment,
+    const bool     ignore_endpoints = true
+);
 
 // Calculate the area of a triangle
 double
 area (const Point& a, const Point& b, const Point& c);
+
+// Mid-point between two points
+Point
+midpoint (const Point& a, const Point& b);
 
 }  // namespace geometry
 
