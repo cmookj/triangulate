@@ -5,10 +5,16 @@
     - No external dependency.
 * For unit test, the library requires Google Test.
 
+## List of Example Programs
+
+* examples/random_polygon: creates a random polygon without self intersection.
+* examples/triangulate: triangulates polygons and calculates area.
+
 ## Build and Run
 
 To build:
 ```shell
+bazel build //examples:random_polygon
 bazel build //examples:triangulate
 ```
 
@@ -55,5 +61,5 @@ The output files contain primitive plain TeX commands with
 The program draws the perimeter polygon and triangles in thick (0.8pt) and very thin (0.1pt)
 lines, respectively.
 
-The figure below show the progress of triangulation of the concave polygon defined in `example_3.csv`:
+The figure below show the progress of triangulation of the concave polygon defined in `random_polygon_0.csv`:
 ![Progress](progress.gif)
