@@ -7,20 +7,21 @@
 
 ## List of Example Programs
 
-* examples/random_polygon: creates a random polygon without self intersection.
-* examples/triangulate: triangulates polygons and calculates area.
+* case_studies/random_polygon: creates a random polygon without self intersection.
+* case_studies/triangulate: triangulates polygons and calculates area.
 
 ## Build and Run
 
 To build:
 ```shell
-bazel build //examples:random_polygon
-bazel build //examples:triangulate
+bazel build //case_studies:random_polygon
+bazel build //case_studies:triangulate
 ```
 
 To run:
 ```shell
-bazel-bin/examples/triangulate
+bazel-bin/case_studies/random_polygon
+bazel-bin/case_studies/triangulate
 ```
 
 In Windows, use `\` instead of `/`, obviously.
@@ -47,7 +48,7 @@ bazel test --cxxopt=/std:c++20 --host_cxxopt=/std:c++20 //test:basic_test
 
 ## Output Files
 
-The program read the csv files in `examples` directory and generates corresponding output files in
+The program read the csv files in `polygons` directory and generates corresponding output files in
 plain TeX (NOT a LaTeX) source with brief print out in the terminal.
 
 **Note**: if `__DEBUG_TIKZ__` is defined (currently it is defined in `core/polygon.cc`) the program
