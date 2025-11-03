@@ -13,7 +13,7 @@
 #include <tuple>
 #include <vector>
 
-#include "core/types.h"
+#include "core/primitive.h"
 
 //// class Polygon
 
@@ -21,9 +21,9 @@ class Polygon {
     using ThreeIndices = std::tuple<std::size_t, std::size_t, std::size_t>;
 
   public:
-    // .left: the left side of line segments is the interior of a polygon
-    // .right: the right side of line segments is the interior of a polygon
-    enum class InteriorDirection { left, right, unknown };
+    // .ccw: the points in the polygon winds counter-clockwise direction
+    // .cw: the points in the polygon winds clockwise direction
+    enum class WindingDirection { ccw, cw, unknown };
 
     Polygon (Points&& pts);
 
@@ -37,17 +37,17 @@ class Polygon {
     area () const;
 
     std::string
-    interior_direction () const;
+    winding_direction () const;
 
   private:
     void
     increase_idx (std::size_t& idx) const;
 
-    // Distinguish interior and outside of polygon
+    // Determine the winding direction of the polygon.
     // Assume that the points form a closed polygon, i.e., the first and last
     // elements coincide.
     void
-    determine_interior_direction (const Points& points) const;
+    determine_winding_direction (const Points& points) const;
 
     void
     register_triangle (
@@ -88,10 +88,10 @@ class Polygon {
     append_debug_tikz (const std::vector<bool>& flags, const Triangles& triangles) const;
 
   private:
-    Points                    _points;
-    mutable double            _area;
-    mutable InteriorDirection _interior_dir;
-    mutable std::ofstream     _debug_tex_tikz_file;
+    Points                   _points;
+    mutable double           _area;
+    mutable WindingDirection _winding_dir;
+    mutable std::ofstream    _debug_tex_tikz_file;
 };
 
 #endif

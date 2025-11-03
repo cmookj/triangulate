@@ -3,7 +3,7 @@
 #include <numbers>
 #include <random>
 
-#include "core/types.h"
+#include "core/primitive.h"
 
 template <typename T> struct random_int_gen {
     // By default, random integral numbers are generated between the minimum

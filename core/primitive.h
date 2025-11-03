@@ -1,5 +1,5 @@
-#ifndef __TYPES_H__
-#define __TYPES_H__
+#ifndef __PRIMITIVE_H__
+#define __PRIMITIVE_H__
 
 #include <array>
 #include <vector>
@@ -18,6 +18,12 @@ struct Point {
 
 Point
 operator+ (const Point& a, const Point& b);
+
+bool
+operator== (const Point& a, const Point& b);
+
+bool
+close_enough (const Point& a, const Point& b, const double threshold = 1e-12);
 
 //// Struct: Polar (coordinates)
 struct Polar {

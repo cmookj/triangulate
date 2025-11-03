@@ -40,6 +40,27 @@ read_csv_points (const std::string& filename) {
     return points;
 }
 
+// Write points to CSV file.
+void
+write_points_csv_file (
+    const std::vector<Point>& points,
+    const std::string&        filename,
+    const bool                cyclic
+
+) {
+    std::ofstream file (filename);
+
+    if (!file.is_open()) {
+        throw std::runtime_error ("Failed to open file: " + filename);
+    }
+
+    for (const auto& p : points) {
+        file << p.x << ", " << p.y << "\n";
+    }
+
+    if (cyclic) file << points.front().x << ", " << points.front().y << "\n";
+}
+
 // Write TeX with TikZ routine to draw polygon and triangles.
 std::string
 string_tikz_polygon (

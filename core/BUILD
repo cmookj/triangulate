@@ -7,7 +7,7 @@ cc_library(
         "geometry.cc",
         "numeric.cc",
         "polygon.cc",
-        "types.cc",
+        "primitive.cc",
     ],
     hdrs = [
         "fileio.h",
@@ -15,7 +15,7 @@ cc_library(
         "numeric.h",
         "polygon.h",
         "random.h",
-        "types.h",
+        "primitive.h",
     ],
     deps = [],
     visibility = ["//visibility:public"],

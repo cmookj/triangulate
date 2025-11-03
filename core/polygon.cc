@@ -18,7 +18,7 @@
 
 Polygon::Polygon (Points&& pts)
     : _points{pts} {
-    determine_interior_direction (_points);
+    determine_winding_direction (_points);
 }
 
 Polygon::~Polygon () {
@@ -33,8 +33,8 @@ Polygon::triangulate () const {
     open_debug_tikz ("debug.tex");
 #endif
 
-    // If the interior cannot be determined, return empty result.
-    if (_interior_dir == InteriorDirection::unknown) return Triangles{};
+    // If the winding direction cannot be determined, return empty result.
+    if (_winding_dir == WindingDirection::unknown) return Triangles{};
 
     Triangles triangles;
 
@@ -85,8 +85,8 @@ Polygon::triangulate () const {
             continue;
         }
 
-        if ((q_diff > 0. && _interior_dir != InteriorDirection::left) ||
-            (q_diff < 0. && _interior_dir != InteriorDirection::right) ||
+        if ((q_diff > 0. && _winding_dir != WindingDirection::ccw) ||
+            (q_diff < 0. && _winding_dir != WindingDirection::cw) ||
             numeric::close_enough (q_diff, 0.)) {
             // The line segment connecting vp to vn is OUTSIDE of the polygon.
             std::cout << "o" << std::endl;
@@ -146,12 +146,12 @@ Polygon::increase_idx (std::size_t& idx) const {
     idx = (idx + 1) % (_points.size() - 1);
 }
 
-// Distinguish interior and outside of polygon
+// Determine the winding direction of the polygon.
 // Assume that the points form a closed polygon, i.e., the first and last
 // elements coincide.
 void
-Polygon::determine_interior_direction (const Points& points) const {
-    // determine_interior_dir_angular_displacement (points);
+Polygon::determine_winding_direction (const Points& points) const {
+    // determine_winding_dir_angular_displacement (points);
     constexpr int count_random_rays = 32;
     for (std::size_t i : std::views::iota (0, static_cast<int> (points.size() - 1))) {
         const Point  p     = geometry::midpoint (points[i], points[i + 1]);
@@ -172,19 +172,20 @@ Polygon::determine_interior_direction (const Points& points) const {
             }
             if (count_intersections % 2 == 0) count_interior_ray++;
         }
-        if (0.2 * count_random_rays < count_interior_ray &&
-            count_interior_ray < 0.8 * count_random_rays)
+        constexpr double threshold = 0.2;
+        if (threshold * count_random_rays < count_interior_ray &&
+            count_interior_ray < (1. - threshold) * count_random_rays)
             continue;
 
-        if (count_interior_ray > 0.8 * count_random_rays) {
-            _interior_dir = InteriorDirection::left;
-        } else if (count_interior_ray < 0.2 * count_random_rays) {
-            _interior_dir = InteriorDirection::right;
+        if (count_interior_ray > (1. - threshold) * count_random_rays) {
+            _winding_dir = WindingDirection::ccw;
+        } else if (count_interior_ray < threshold * count_random_rays) {
+            _winding_dir = WindingDirection::cw;
         }
         return;
     }
 
-    _interior_dir = InteriorDirection::unknown;
+    _winding_dir = WindingDirection::unknown;
 }
 
 void
@@ -197,9 +198,9 @@ Polygon::register_triangle (
     // Register a triangle and calculate area.
     // Arrange the vertices so that the normal of the triangle is aligned
     // with the surface (or the plane which contains the polygon) normal.
-    if (_interior_dir == InteriorDirection::right) {
+    if (_winding_dir == WindingDirection::cw) {
         triangles.push_back (TriangleSpec{a, c, b});
-    } else {  // InteriorDirection::left
+    } else {  // WindingDirection::left
         triangles.push_back (TriangleSpec{a, b, c});
     }
 }
@@ -291,10 +292,10 @@ Polygon::has_intersection (
 }
 
 std::string
-Polygon::interior_direction () const {
-    switch (_interior_dir) {
-    case InteriorDirection::left: return "left"; break;
-    case InteriorDirection::right: return "right"; break;
+Polygon::winding_direction () const {
+    switch (_winding_dir) {
+    case WindingDirection::ccw: return "ccw"; break;
+    case WindingDirection::cw: return "cw"; break;
     default: return "unknown"; break;
     }
 }

@@ -6,7 +6,7 @@
 #ifndef __GEOMETRY_H__
 #define __GEOMETRY_H__
 
-#include "core/types.h"
+#include "core/primitive.h"
 
 //// NAMESPACE: geometry
 namespace geometry {

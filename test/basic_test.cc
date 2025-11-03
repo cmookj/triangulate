@@ -7,8 +7,8 @@
 #include "core/geometry.h"
 #include "core/numeric.h"
 #include "core/polygon.h"
+#include "core/primitive.h"
 #include "core/random.h"
-#include "core/types.h"
 
 //// For a limited form of QuickCheck
 constexpr std::size_t max_test_count = 65536;
@@ -88,7 +88,7 @@ TEST (GeometryTest, Intersection) {
 }
 
 //// Polygon
-TEST (PolygonTest, InteriorDirection) {
+TEST (PolygonTest, WindingDirection) {
     {
         std::vector<Point> points{
             Point{0.0, 0.0},
@@ -98,7 +98,7 @@ TEST (PolygonTest, InteriorDirection) {
             Point{0.0, 0.0}
         };
         Polygon square_ccw{std::move (points)};
-        EXPECT_EQ (square_ccw.interior_direction(), "left");
+        EXPECT_EQ (square_ccw.winding_direction(), "ccw");
     }
 
     {
@@ -110,7 +110,7 @@ TEST (PolygonTest, InteriorDirection) {
             Point{0.0, 0.0}
         };
         Polygon square_cw{std::move (points)};
-        EXPECT_EQ (square_cw.interior_direction(), "right");
+        EXPECT_EQ (square_cw.winding_direction(), "cw");
     }
 
     constexpr int count_vertices = 12;
@@ -126,7 +126,7 @@ TEST (PolygonTest, InteriorDirection) {
             points.push_back (Point{x, y});
         }
         Polygon poly_ccw{std::move (points)};
-        EXPECT_EQ (poly_ccw.interior_direction(), "left");
+        EXPECT_EQ (poly_ccw.winding_direction(), "ccw");
     }
 
     {
@@ -139,6 +139,6 @@ TEST (PolygonTest, InteriorDirection) {
             points.push_back (Point{x, y});
         }
         Polygon poly_cw{std::move (points)};
-        EXPECT_EQ (poly_cw.interior_direction(), "right");
+        EXPECT_EQ (poly_cw.winding_direction(), "cw");
     }
 }

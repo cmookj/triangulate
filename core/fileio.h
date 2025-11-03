@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-#include "core/types.h"
+#include "core/primitive.h"
 
 //// NAMESPACE: fileio
 
@@ -18,6 +18,14 @@ namespace fileio {
 // Read CSV file into a vector.
 std::vector<Point>
 read_csv_points (const std::string& filename);
+
+// Write CSV file
+void
+write_points_csv_file (
+    const std::vector<Point>&,
+    const std::string& filename,
+    const bool         cyclic = false
+);
 
 // Write TeX with TikZ routine to draw polygon and triangles.
 std::string
