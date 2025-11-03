@@ -8,5 +8,4 @@ compile_commands.json
 *.tex
 *.log
 *.pgf
-output
 hidden
